@@ -1,0 +1,34 @@
+
+sm 5.1-new latest, built VS2022, x64
+
+mmmagic.dll hacked together in 5 minutes, from dumpsterfire src
+
+LightsDriver=Win32Minimaid
+
+========
+Without minimaid support compiled into stepmania:
+Default CMake setting WITH_MINIMAID=OFF
+TODO
+
+
+========
+CMake: WITH_MINIMAID=ON
+
+But Without mmmagic.dll present - Dialog box shown, failed to load mmmagic.dll
+log shows lights driver tried to init, rather than missing
+
+StepMania5.1-git-675c752e9e
+Compiled 20220903 @ 23:38:45 (build 675c752e9e)
+...
+WaveOut software mixing at 44100 hz
+Sound driver: WaveOut
+Lights driver: Win32Minimaid
+...
+
+========
+
+With mmmagic.dll copied to stepmania install/Program
+
+Dialog: Failed to connect to the minimad device. Freeing the library now.
+
+========

@@ -1,0 +1,1 @@
+gcc -c mmmagic.c mm_lowlevel.c asyncthreads.c minimaidhid.c update.c -lhid -lsetupapi

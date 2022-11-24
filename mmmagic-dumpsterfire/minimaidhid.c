@@ -15,7 +15,7 @@
 
 //#define ENABLE_DEBUG_MESSAGES
 
-#define DEBUG_VERSION_HID 	0
+// #define DEBUG_VERSION_HID 	0
 #if DEBUG_VERSION_HID
 #define Debug		printf
 #else
@@ -74,6 +74,7 @@ static HANDLE open_device(const char *path, BOOL enumerate)
 
 int minimaid_open_device(BOOL async) {
   Debug("mm: init\n");
+  Debug("minimaid_open_device: 1\n");
 	int device=0;
 	GUID InterfaceClassGuid = {0x4d1e55b2, 0xf16f, 0x11cf, {0x88, 0xcb, 0x00, 0x11, 0x11, 0x00, 0x00, 0x30} };
 	SP_DEVICE_INTERFACE_DETAIL_DATA_A *device_interface_detail_data = NULL;
@@ -104,9 +105,13 @@ int minimaid_open_device(BOOL async) {
 	// for SetupDiEnumDeviceInterfaces
 	DeviceInterfaceData.cbSize = sizeof(DeviceInterfaceData);
 
+Debug("minimaid_open_device: 2\n");
+
 	PnPHandle = SetupDiGetClassDevs(&GUID, NULL, NULL, DIGCF_PRESENT|DIGCF_INTERFACEDEVICE);
 	GUARD(PnPHandle != INVALID_HANDLE_VALUE);
  
+Debug("minimaid_open_device: 3\n");
+
 	for(device = 0; ; device++) 
 	{
 		HANDLE write_handle = INVALID_HANDLE_VALUE;
@@ -196,17 +201,25 @@ int minimaid_open_device(BOOL async) {
 			break;
 		}
 	}
+
+	Debug("minimaid_open_device: 4\n");
 	
 	if(mm_in_report == NULL || mm_out_report == NULL) {
 		Debug("MINIMAID: - Failed to set up HID buffers.\n");
 		goto error;
 	}
 
+	Debug("minimaid_open_device: 5\n");
+
 	SetupDiDestroyDeviceInfoList(PnPHandle);
+
+	Debug("minimaid_open_device: 6\n");
 
 	asyncupdates = async;
 	if(async)
 	{
+		Debug("minimaid_open_device: 6 (async)\n");
+
 		minimaid_input_sem = CreateSemaphore(NULL, 0, 1, NULL);
 		minimaid_input_ctx = NULL;
 		minimaid_input_callback = NULL;
@@ -218,9 +231,11 @@ int minimaid_open_device(BOOL async) {
 		CreateThread(NULL, 0, OutputThread, NULL, 0 ,0);
 	}
 	if (HIDAttributes.VendorID != 0xBEEF && HIDAttributes.ProductID != 0x5730) goto error;
+	Debug("minimaid_open_device: 7\n");
 	return 0; 
 
 error:
+	Debug("minimaid_open_device: error\n");
 	SetupDiDestroyDeviceInfoList(PnPHandle); 
 	Debug("MINIMAID: - Failed to set up HID.\n");
 	return 1;

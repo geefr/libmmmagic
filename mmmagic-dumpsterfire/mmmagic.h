@@ -24,6 +24,13 @@ sudo chmod 666 /dev/hidraw*
 extern "C" {
 #endif
 
+#ifndef MMMAGIC_API
+# ifdef MMMAGIC_API_EXPORT
+#  define MMMAGIC_API __declspec(dllexport)
+# else
+#  define MMMAGIC_API __declspec(dllimport)
+# endif
+#endif
 
 /*Minimaid bit identifiers*/
 //CANINET_LIGHTS
@@ -48,26 +55,24 @@ static bool __bitValid(int bit);
 
 
 //minimaid prototypes
-void mm_setDDRPad1Light(int, int);
-void mm_setDDRPad2Light(int, int);
-void mm_setDDRCabinetLight(int, int);
-void mm_setDDRBassLight(int, int);
+MMMAGIC_API extern void mm_setDDRPad1Light(int, int);
+MMMAGIC_API extern void mm_setDDRPad2Light(int, int);
+MMMAGIC_API extern void mm_setDDRCabinetLight(int, int);
+MMMAGIC_API extern void mm_setDDRBassLight(int, int);
 
 
-bool mm_connect_minimaid();
-bool mm_setKB(bool val);
+MMMAGIC_API extern bool mm_connect_minimaid();
+MMMAGIC_API extern bool mm_setKB(bool val);
 
-void mm_setDDRAllOn();
-void mm_setDDRAllOff();
+MMMAGIC_API extern void mm_setDDRAllOn();
+MMMAGIC_API extern void mm_setDDRAllOff();
 
-void mm_setBlueLED(unsigned char value);
-void mm_setMMOutputReports(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
-bool mm_sendDDRMiniMaidUpdate();
-static void mm_init();
-static unsigned char mm_turnON(unsigned char set, int bit);
-static unsigned char mm_turnOFF(unsigned char set, int bit);
-
-
+MMMAGIC_API extern void mm_setBlueLED(unsigned char value);
+MMMAGIC_API extern void mm_setMMOutputReports(unsigned char a, unsigned char b, unsigned char c, unsigned char d);
+MMMAGIC_API extern bool mm_sendDDRMiniMaidUpdate();
+MMMAGIC_API extern void mm_init();
+MMMAGIC_API extern unsigned char mm_turnON(unsigned char set, int bit);
+MMMAGIC_API extern unsigned char mm_turnOFF(unsigned char set, int bit);
 
 //void mm_input_callback(void *ctx);
 

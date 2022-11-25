@@ -59,6 +59,9 @@ if( MMMAGIC_BUILD_BLINK_EXE )
 
   add_executable( mmmagic_blink_nonthreaded mmmagic/main.cpp )
   target_link_libraries( mmmagic_blink_nonthreaded mmmagic_nonthreaded )
+
+  install(TARGETS mmmagic_blink mmmagic_nonthreaded DESTINATION .)
+  install(TARGETS mmmagic_blink_nonthreaded mmmagic_nonthreaded DESTINATION .)
 endif()
 
 # Installation

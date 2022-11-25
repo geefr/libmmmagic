@@ -167,7 +167,11 @@ void mm_init()
 
 bool mm_connect_minimaid()
 {
+#ifdef MMMAGIC_NONTHREADED
 	__mm = minimaid_open_device(false);
+#else
+	__mm = minimaid_open_device(true);
+#endif
 	if(__mm==1)
 	{
 		printf("Failed to connect to the minimaid.\n");

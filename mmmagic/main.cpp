@@ -1,5 +1,8 @@
 #include "mmmagic.h"
 
+#include <chrono>
+#include <thread>
+
 #define WINBLOWS
 
 #ifndef WINBLOWS
@@ -14,19 +17,13 @@ int main (void)
 	while (count<100)
 	{
 		mm_setBlueLED(0xFF);
+		mm_setDDRAllOn();
 		mm_sendDDRMiniMaidUpdate();
-#ifdef WINBLOWS
-    Sleep(3000);
-#else
-		sleep(3);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(3));
 		mm_setBlueLED(0x00);
+		mm_setDDRAllOff();
 		mm_sendDDRMiniMaidUpdate();
-#ifdef WINBLOWS
-    Sleep(5000);
-#else
-		sleep(5);
-#endif
+		std::this_thread::sleep_for(std::chrono::seconds(5));
 		count++;
 	}
 #ifndef WINBLOWS
